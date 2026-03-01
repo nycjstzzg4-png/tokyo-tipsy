@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>(3/9) 喝啦喝啦～相聚東京啦～ (也沒哪天不喝)</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #f4f4f4; max-width: 650px; margin: 0 auto; padding: 20px; background-color: #0b0b0b; }
+        h1 { color: #fff; text-align: center; font-size: 1.6em; border-bottom: 2px solid #333; padding-bottom: 15px; margin-bottom: 30px; letter-spacing: 1px; }
+        
+        .card { background: #1a1a1a; border-radius: 8px; padding: 25px; margin-bottom: 0; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-left: 5px solid #cca360; position: relative; z-index: 2; }
+        .time { font-weight: 800; color: #cca360; font-size: 1.1em; margin-bottom: 10px; letter-spacing: 0.5px; border-bottom: 1px dashed #333; padding-bottom: 5px; display: inline-block; }
+        .title { font-size: 1.4em; font-weight: 700; margin-bottom: 15px; color: #fff; line-height: 1.3; }
+        .info-box { background: #222; border-radius: 6px; padding: 15px; margin-bottom: 15px; font-size: 0.95em; color: #ccc; }
+        .info-row { margin-bottom: 8px; display: flex; }
+        .info-label { font-weight: bold; color: #e0b673; min-width: 80px; flex-shrink: 0; }
+        .info-content { color: #ddd; }
+        
+        /* 隱藏彩蛋(Yes)專屬顏色 */
+        .hidden-gem { border-left-color: #8e44ad; }
+        .hidden-gem .time, .hidden-gem .info-label { color: #bb8fce; }
+        
+        /* 備案(No)專屬顏色 */
+        .backup-plan { border-left-color: #4a90e2; }
+        .backup-plan .time, .backup-plan .info-label { color: #7cb2ec; }
+        
+        /* 按鈕設計 */
+        .btn-group { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px; }
+        a.btn { display: inline-block; background: #cca360; color: #000; padding: 10px 18px; text-decoration: none; font-size: 0.9em; font-weight: bold; border-radius: 4px; transition: 0.2s; text-align: center; }
+        a.btn:hover { background: #e0b673; }
+        a.btn-outline { background: transparent; border: 1px solid #cca360; color: #cca360; }
+        a.btn-outline:hover { background: #cca360; color: #000; }
+        a.btn-purple { background: #8e44ad; color: #fff; border: 1px solid #8e44ad; }
+        a.btn-purple:hover { background: #a569bd; border-color: #a569bd; }
+        a.btn-outline-purple { background: transparent; border: 1px solid #8e44ad; color: #bb8fce; }
+        a.btn-outline-purple:hover { background: #8e44ad; color: #fff; }
+        
+        /* 互動式 Yes/No 按鈕區塊 */
+        .decision-box { background: #111; border: 2px dashed #555; border-radius: 8px; padding: 20px; text-align: center; margin: 25px 0; }
+        .decision-title { font-size: 1.2em; font-weight: bold; color: #fff; margin-bottom: 15px; }
+        .btn-yes, .btn-no { border: none; padding: 12px 25px; font-size: 1em; font-weight: bold; border-radius: 30px; cursor: pointer; transition: all 0.3s ease; margin: 0 10px; }
+        .btn-yes { background-color: #8e44ad; color: #fff; box-shadow: 0 4px 15px rgba(142, 68, 173, 0.4); }
+        .btn-yes:hover { background-color: #9b59b6; transform: translateY(-2px); }
+        .btn-no { background-color: #4a90e2; color: #fff; box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4); }
+        .btn-no:hover { background-color: #5fa0e8; transform: translateY(-2px); }
+        
+        /* 交通膠囊 */
+        .transit-box { text-align: center; margin: 0 auto; padding: 15px 0; position: relative; z-index: 1; }
+        .transit-box::before { content: ''; display: block; width: 2px; height: 100%; background-color: #333; position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: -1; }
+        a.transit-content { display: inline-block; background: #111; padding: 8px 18px; border-radius: 20px; border: 1px dashed #cca360; color: #e0b673; font-size: 0.9em; font-weight: bold; letter-spacing: 0.5px; box-shadow: 0 4px 10px rgba(0,0,0,0.8); text-decoration: none; transition: all 0.3s ease; cursor: pointer; }
+        a.transit-content:hover { background: #cca360; color: #000; border-style: solid; transform: scale(1.05); }
+        
+        .footer-note { text-align: center; color: #555; font-size: 0.8em; margin-top: 30px; }
+
+        /* 預設隱藏的分支區塊 */
+        #route-yes, #route-no { display: none; animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <h1>🍻（3/9) 喝啦喝啦～相聚東京啦～🍻<br><span style="font-size: 0.6em; color: #cca360;">也沒哪天不喝🥂</span></h1>
+
+    <div class="transit-box">
+        <a href="https://www.google.com/maps/dir/?api=1&origin=Sotetsu+Fresa+Inn+Tokyo-Kyobashi&destination=Kamiyacho+Station&travelmode=transit" class="transit-content" style="border-color: #4a90e2; color: #4a90e2; margin-bottom: 10px; display: block;" target="_blank">🚇 阿澤及艾許出發！(京橋相鐵 ➔ 神谷町) ➔ 點擊導航</a>
+        <a href="https://www.google.com/maps/dir/?api=1&origin=HOTEL+MYSTAYS+Hamamatsucho&destination=Kamiyacho+Station&travelmode=transit" class="transit-content" style="border-color: #e67e22; color: #e67e22; display: block;" target="_blank">🚇 汝跟虹出發！(濱松町 MYSTAYS ➔ 神谷町) ➔ 點擊導航</a>
+    </div>
+
+    <div class="card">
+        <div class="time">09:30 🤝 集合碰面</div>
+        <div class="title">神谷町站 (麻布台之丘)</div>
+        <div class="info-box">
+            <div class="info-row"><span class="info-label">📍 出發時間</span><span class="info-content">建議雙方大約 08:45 - 09:00 左右從各自飯店出發。</span></div>
+            <div class="info-row"><span class="info-label">📍 會面點</span><span class="info-content">神谷町站 5 號出口。<br>建議直接走「地下連通道」直達麻布台之丘 B1，免吹風淋雨！</span></div>
+        </div>
+        <div class="btn-group">
+            <a href="https://www.google.com/maps/search/?api=1&query=神谷町站" class="btn" target="_blank">📍 開啟地圖</a>
+        </div>
+    </div>
+
+    <div class="transit-box"><a href="https://www.google.com/maps/dir/?api=1&origin=神谷町站&destination=だし尾粂+麻布台ヒルズ店&travelmode=walking" class="transit-content" target="_blank">🚶‍♂️ 散步前往 B1 樓層 ➔ 點擊導航</a></div>
+
+    <div class="card">
+        <div class="time">10:00 - 11:00 🛍️ 第一站：鮮味尋寶</div>
+        <div class="title">Dashi Okume だし尾粂 (麻布台之丘 B1)</div>
+        <div class="info-box">
+            <div class="info-row"><span class="info-label">📖 行程簡介</span><span class="info-content">
+                頂級出汁專賣店。體驗高達 36 種國產配料的客製化高湯服務，並觀察其高質感的包裝設計。<br><br>
+                💡 <b>溫馨小提醒：</b>記得四肢腳的材料不要選，會被罰錢！<br>
+                ⏳ 湯包製作要花 50min 包裝，可以先去下個點看香水喝調酒。
+            </span></div>
+        </div>
+        <div class="btn-group">
+            <a href="https://www.google.com/maps/search/?api=1&query=だし尾粂+麻布台ヒルズ店" class="btn" target="_blank">📍 開啟地圖</a>
+            <a href="https://okume.jp/" class="btn btn-outline" target="_blank">🌐 品牌官方網站</a>
+            <a href="https://www.instagram.com/reel/DF2laOrTcjD/" class="btn btn-outline" target="_blank">自製湯包介紹影片 1</a>
+            <a href="https://www.facebook.com/reel/842154178043019/" class="btn btn-outline" target="_blank">自製湯包介紹影片 2</a>
+        </div>
+    </div>
+
+    <div class="transit-box"><a href="https://www.google.com/maps/dir/?api=1&origin=だし尾粂+麻布台ヒルズ店&destination=FUEGUIA+1833+Azabudai&travelmode=walking" class="transit-content" target="_blank">🚶‍♂️ 前往 2F ➔ 點擊導航</a></div>
+
+    <div class="card">
+        <div class="time">11:00 - 12:00 🧪 第二站：嗅覺與味覺跨界</div>
+        <div class="title">FUEGUIA 1833 Composición Library</div>
+        <div class="info-box">
+            <div class="info-row"><span class="info-label">📖 行程簡介</span><span class="info-content">
+                將香氣轉化為味覺的體驗型菜單「Composición Cocktail」推出了春季新作！<br>
+                包含以哥倫比亞原住民可可文化為靈感的調酒『Chundúa』（附贈 Minimal 巧克力），以及用味覺表現麝香的無酒精特調『Huella』。點餐時會附上對應的試香紙，讓您在品飲的同時，感受嗅覺與味覺交錯的知覺體驗。
+            </span></div>
+        </div>
+        <div class="btn-group">
+            <a href="https://www.google.com/maps/search/?api=1&query=FUEGUIA+1833+Azabudai" class="btn" target="_blank">📍 開啟地圖</a>
+            <a href="https://fueguia.jp/pages/composicion-cocktail-2026" class="btn btn-outline" target="_blank">酒單在這</a>
+        </div>
+    </div>
+
+    <div class="transit-box"><a href="https://www.google.com/maps/dir/?api=1&origin=FUEGUIA+1833+Azabudai&destination=虎之門蒸餾所&travelmode=walking" class="transit-content" target="_blank">🚶‍♂️ 步行前往虎之門 Hills ➔ 點擊導航</a></div>
+
+    <div class="card">
+        <div class="time">12:15 - 13:15 🍸 第三站：午間微醺能量</div>
+        <div class="title">虎之門蒸餾所 (虎之門 Hills 3F)</div>
+        <div class="info-box">
+            <div class="info-row"><span class="info-label">📖 行程簡介</span><span class="info-content">坐在大型銅製蒸餾器旁享用定食午餐，配上一杯清爽的原創琴酒，吃飽喝足準備上工！<br><b>不能訂位，那就逛過去候位吧！</b></span></div>
+        </div>
+        <div class="btn-group">
+            <a href="https://www.google.com/maps/search/?api=1&query=虎之門蒸餾所" class="btn" target="_blank">📍 開啟地圖</a>
+            <a href="https://tabelog.com/tw/tokyo/A1308/A130802/13245922/" class="btn btn-outline" target="_blank">🌐 品牌官方網站</a>
+            <a href="https://www.1shot.tw/52826/日本喝酒特輯-虎之門蒸留所-琴酒廠＋城市居酒屋" class="btn btn-outline" target="_blank">虎之門介紹文章</a>
+        </div>
+    </div>
+
+    <div class="transit-box"><a href="https://www.google.com/maps/dir/?api=1&origin=虎之門蒸餾所&destination=Tokyo+Big+Sight&travelmode=driving" class="transit-content" style="border-color: #ff6b6b; color: #ff6b6b;" target="_blank">🚕 搭計程車直達展覽館 ➔ 點擊導航</a></div>
+
+    <div class="card" style="border-left-color: #d93025;">
+        <div class="time" style="color: #ff6b6b;">13:45 - 15:45 ⭐ 來去佈展囉</div>
+        <div class="title">FOODEX JAPAN 2026 佈展</div>
+        <div class="info-box">
+            <div class="info-row"><span class="info-label" style="color: #ff6b6b;">📖 行程簡介</span><span class="info-content">抵達展覽館後，輕鬆地將東太陽製酒攤位佈置與文宣陳列完成！</span></div>
+        </div>
+        <div class="btn-group">
+            <a href="https://www.google.com/maps/search/?api=1&query=Tokyo+Big+Sight" class="btn" style="background: #d93025; color: #fff; border: 1px solid #d93025;" target="_blank">📍 開啟地圖</a>
+            <a href="https://www.jma.or.jp/foodex/" class="btn btn-outline" style="border-color: #ff6b6b; color: #ff6b6b;" target="_blank">🌐 展會官方網站</a>
+        </div>
+    </div>
+
+    <div class="decision-box">
+        <div class="decision-title">🎉 佈展結束！感謝兩位相挺，來去下個點囉！ 🎉</div>
+        <button class="btn-yes" onclick="selectRoute('yes')">🎁 給艾許跟阿澤的隱藏彩蛋(?)</button>
+        <button class="btn-no" onclick="selectRoute('no')">✨ 我們來去做香水吧！</button>
+    </div>
+
+    <div id="route-yes">
+        <div class="transit-box">
+            <span class="transit-content" style="border-color: #8e44ad; color: #8e44ad; cursor: default;">這家店只有3/7~3/8有開，台東的捧友去不了QAQ</span>
+        </div>
+        
+        <div class="card hidden-gem">
+            <div class="title">深川蒸餾所 (江東區平野)</div>
+            <div class="info-box">
+                <div class="info-row"><span class="info-label">📖 行程簡介</span><span class="info-content">
+                超限定開放：只有 3/7（六）和 3/8（日）這兩天的 12:00～18:00 有營業。<br>
+                • 客座調酒師：3/8 當天特別請到了「Bar Ala」來擔任客座調酒師。<br>
+                • 夢幻限量酒款：當天會正式首賣 3 周年紀念、混入了蛇年特製烈酒的精釀琴酒「深川ツブロ / 蜃気楼乃蛇」！<br>
+                • 輕鬆氛圍：現場採取不需預約的「立吞（站飲）」形式。
+                </span></div>
+            </div>
+            <div class="btn-group">
+                <a href="https://www.google.com/maps/search/?api=1&query=深川蒸留所" class="btn btn-purple" target="_blank">📍 開啟地圖</a>
+                <a href="https://fukagawa-distillery.tokyo/" class="btn btn-outline-purple" target="_blank">🌐 官方網站</a>
+                <a href="https://www.instagram.com/fukagawa.distillery/" class="btn btn-outline-purple" target="_blank">深川蒸餾所IG</a>
+            </div>
+        </div>
+
+        <div class="transit-box">
+            <span class="transit-content" style="border-color: #8e44ad; color: #8e44ad; cursor: default;">💡 你們有空可以來去試看看唷～</span>
+        </div>
+    </div>
+
+    <div id="route-no">
+        <div class="transit-box"><a href="https://www.google.com/maps/dir/?api=1&origin=Tokyo+Big+Sight&destination=MY+ONLY+FRAGRANCE+Harajuku&travelmode=transit" class="transit-content" style="border-color: #4a90e2; color: #4a90e2;" target="_blank">🚇 臨海線轉 JR 山手線前往原宿 (約 40 分) ➔ 點擊導航</a></div>
+        
+        <div class="card backup-plan">
+            <div class="time">16:30 - 17:30 💧 氣味探索：或許可以把喜歡的酒品味道也加進香水中（？）</div>
+            <div class="title">MY ONLY FRAGRANCE (原宿)</div>
+            <div class="info-box">
+                <div class="info-row"><span class="info-label">📖 行程簡介</span><span class="info-content">既然酒廠沒開，就來做香水！體驗專業客製化香水服務，把早上的嗅覺靈感化為現實，調製專屬的氣味記憶。</span></div>
+            </div>
+            <div class="btn-group">
+                <a href="https://www.google.com/maps/search/?api=1&query=MY+ONLY+FRAGRANCE+Harajuku" class="btn" style="background: #4a90e2; color: #fff;" target="_blank">📍 開啟地圖</a>
+                <a href="https://myonlyfragrance.com/" class="btn btn-outline" style="border-color: #4a90e2; color: #4a90e2;" target="_blank">🌐 官方網站</a>
+                <a href="https://www.instagram.com/reel/DHs5B95Be6t/" class="btn btn-outline" style="border-color: #4a90e2; color: #4a90e2;" target="_blank">IG影片介紹</a>
+                <a href="https://www.kkday.com/zh-tw/product/248953?srsltid=AfmBOoo432SYvkq4PV9e4TwGJTOVfgnTnSRK03bKispJn3kRy1e22lw2" class="btn btn-outline" style="border-color: #4a90e2; color: #4a90e2;" target="_blank">kkday預訂</a>
+            </div>
+        </div>
+
+        <div class="transit-box"><a href="https://www.google.com/maps/dir/?api=1&origin=MY+ONLY+FRAGRANCE+Harajuku&destination=おひつ膳+田んぼ+代々木本店&travelmode=transit" class="transit-content" target="_blank">🚇 做完香水搭 JR 山手線一站直達代代木 (約 15 分鐘) ➔ 點擊導航</a></div>
+    </div>
+    
+    <div class="card">
+        <div class="time">17:45 - 19:00 🍚 第四站：極致白飯定食</div>
+        <div class="title">おひつ膳 田んぼ (代々木本店)</div>
+        <div class="info-box">
+            <div class="info-row"><span class="info-label">📖 行程簡介</span><span class="info-content">講究米飯極致的超人氣定食名店。完美避開排隊人潮，用現煮白飯慰勞辛勞。<br><b>這間需要現場候位，無法預定。</b></span></div>
+        </div>
+        <div class="btn-group">
+            <a href="https://www.google.com/maps/search/?api=1&query=おひつ膳+田んぼ+代々木本店" class="btn" target="_blank">📍 開啟地圖</a>
+            <a href="https://tanbo.co.jp/menu/" class="btn btn-outline" target="_blank">菜單一</a>
+            <a href="https://tanbo.co.jp/takeout/" class="btn btn-outline" target="_blank">菜單二</a>
+        </div>
+    </div>
+
+    <div class="transit-box"><a href="https://www.google.com/maps/dir/?api=1&origin=おひつ膳+田んぼ+代々木本店&destination=HITACHINO+BREWING+Tokyo+Distillery&travelmode=transit" class="transit-content" target="_blank">🚇 代代木站搭 JR 總武線直達秋葉原 ➔ 點擊導航</a></div>
+
+    <div class="card">
+        <div class="time">19:30 - 21:30 🍺 第五站：夜間都會酒廠</div>
+        <div class="title">東京蒸溜所 (HITACHINO BREWING)</div>
+        <div class="info-box">
+            <div class="info-row"><span class="info-label">📖 行程簡介</span><span class="info-content">在放鬆的氛圍中品飲特色酒，暢聊明日展場策略。</span></div>
+        </div>
+        <div class="btn-group">
+            <a href="https://www.google.com/maps/search/?api=1&query=HITACHINO+BREWING+Tokyo+Distillery" class="btn" target="_blank">📍 開啟地圖</a>
+            <a href="https://www.1shot.tw/36902/常陸野東京蒸溜所參觀" class="btn btn-outline" target="_blank">介紹文章</a>
+            <a href="https://youtu.be/KlbKmImCwuk?si=G6zuh_3xCiscCJa1" class="btn btn-outline" target="_blank">介紹影片</a>
+        </div>
+    </div>
+
+    <div class="card" style="border-left-color: #27ae60; margin-top: 25px; padding-bottom: 15px;">
+        <div class="time" style="color: #2ecc71;">21:30 - 22:30 🛌 走吧！回飯店洗洗睡～醉了沒？</div>
+        <div class="title">回程囉！</div>
+        <div class="info-box" style="margin-bottom: 5px;">
+            <div class="info-row"><span class="info-label" style="color: #2ecc71;">📖 結語</span><span class="info-content">阿我們 4 月再繼續喝喔！</span></div>
+        </div>
+    </div>
+    
+    <div class="transit-box" style="padding-top: 5px;">
+        <a href="https://www.google.com/maps/dir/?api=1&origin=Hitachino+Brewing+Tokyo+Distillery&destination=Sotetsu+Fresa+Inn+Tokyo-Kyobashi&travelmode=transit" class="transit-content" style="border-color: #4a90e2; color: #4a90e2; margin-bottom: 10px; display: block;" target="_blank">🚇 明天回國囉～（阿澤及艾許） ➔ 點擊導航</a>
+        <a href="https://www.google.com/maps/dir/?api=1&origin=Hitachino+Brewing+Tokyo+Distillery&destination=HOTEL+MYSTAYS+Hamamatsucho&travelmode=transit" class="transit-content" style="border-color: #e67e22; color: #e67e22; display: block;" target="_blank">🚇 汝跟虹明天工作喔～ ➔ 點擊導航</a>
+    </div>
+
+    <script>
+        function selectRoute(choice) {
+            const routeYes = document.getElementById('route-yes');
+            const routeNo = document.getElementById('route-no');
+            const btnYes = document.querySelector('.btn-yes');
+            const btnNo = document.querySelector('.btn-no');
+
+            if (choice === 'yes') {
+                routeYes.style.display = 'block';
+                routeNo.style.display = 'none';
+                btnYes.style.transform = 'scale(1.05)';
+                btnYes.style.border = '2px solid #fff';
+                btnNo.style.transform = 'scale(1)';
+                btnNo.style.border = 'none';
+            } else if (choice === 'no') {
+                routeYes.style.display = 'none';
+                routeNo.style.display = 'block';
+                btnNo.style.transform = 'scale(1.05)';
+                btnNo.style.border = '2px solid #fff';
+                btnYes.style.transform = 'scale(1)';
+                btnYes.style.border = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
